@@ -39,26 +39,13 @@ async def storefile(c, m):
         await msg.reply(text)
 
     # creating urls
-    bot = await c.get_me()
-    base64_string = await encode_string(f"{m.chat.id}_{msg.message_id}")
-    url = f"https://t.me/{bot.username}?start={base64_string}"
-    txt = urllib.parse.quote(text.replace('--', ''))
-    share_url = f"tg://share?url={txt}File%20Link%20👉%20{url}"
+    string = f"get-{f_msg_id * abs(client.db_channel.id)}-{s_msg_id * abs(client.db_channel.id)}"
+    base64_string = await encode(string)
+    link = f"https://t.me/{client.username}?start={base64_string}"
+    reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 Sʜᴀʀᴇ URL 🔁", url=f'https://telegram.me/share/url?url={link}')]])
+    await second_message.reply_text(f"<b>Here is your link</b>\n\n{link}", quote=True, reply_markup=reply_markup)
 
-    # making buttons
-    buttons = [[
-        InlineKeyboardButton(text="Oᴘᴇɴ Uʀʟ 🔗", url=url),
-        InlineKeyboardButton(text="Sʜᴀʀᴇ Lɪɴᴋ 👤", url=share_url)
-        ],[
-        InlineKeyboardButton(text="Dᴇʟᴇᴛᴇ Fɪʟᴇ🗑", callback_data=f"delete+{msg.message_id}")
-    ]]
-
-    # sending message
-    await send_message.edit(
-        text,
-        reply_markup=InlineKeyboardMarkup(buttons)
-    )
-
+    
     
     
 ###### FOR CHANNEL ######
